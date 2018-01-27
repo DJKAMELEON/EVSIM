@@ -21,7 +21,7 @@ public:
 	StringObject(unsigned int sizeOfString);
 	void Random();
 	StringObject* Mutate(float mutation);
-	std::string& Draw();
+	std::string Draw();
 	int GetFitness()const;
 	void CalculateFitness(std::string &target);
 private:

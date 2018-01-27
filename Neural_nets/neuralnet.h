@@ -2,6 +2,11 @@
 #define NEURALNET_H
 
 #include <vector>
+#include <string>
+#include <iostream>
+#include <sstream>
+#include <cstdlib>
+#include "../Evolution_simulator/simulatorObject.h"
 
 using namespace std;
 
@@ -28,18 +33,24 @@ public:
 	~Layer();
 	int GetSize(){return neuron_num;}
 private:
-	double* neurons;
+	vector<double> neurons;
 	int neuron_num;
 };
 
-class NeuralNet
+class NeuralNet final : public SimulatorObject<double>
 {
 public:
 	NeuralNet(int layer_number,int neuron_number,int inputs,int outputs);
 	void CalculateOutput();
 	void ShowOutput();
+	void Random();
+	NeuralNet* Mutate(float mutation);
+	std::string Draw();
+	int GetFitness()const;
+	void CalculateFitness(double &target);
 private:
 	int layer_num;
+	int fitness;
 	vector<Layer> layers;
 	vector<Matrix> matrixes;
 };

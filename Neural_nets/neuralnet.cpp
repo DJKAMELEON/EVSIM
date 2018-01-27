@@ -1,18 +1,15 @@
 #include "neuralnet.h"
-#include <iostream>
 
 Layer::Layer(int neuron_number) : neuron_num(neuron_number)
 {
-	neurons = new double[neuron_number];
 	for(int i=0;i<neuron_number;++i)
 	{
-		neurons[i] = 1.0;
+		neurons.push_back(1.0);
 	}
 }
 
 Layer::~Layer()
 {
-	delete[] neurons;
 }
 
 double& Layer::operator[](int index)
@@ -73,6 +70,7 @@ NeuralNet::NeuralNet(int layer_number,int neuron_number,int inputs,int outputs) 
 		matrixes.push_back(Matrix(neuron_number,neuron_number));
 	}
 	matrixes.push_back(Matrix(neuron_number,outputs));
+	fitness = 0;
 }
 
 void NeuralNet::CalculateOutput()
@@ -89,4 +87,44 @@ void NeuralNet::ShowOutput()
 	{
 		cout << layers[layer_num-1][i] << endl;
 	}
+}
+
+void NeuralNet::Random()
+{
+
+}
+
+std::string NeuralNet::Draw()
+{
+	std::stringstream ss;
+	ss << "Output: ";
+	for(int i=0;i<layers[layer_num-1].GetSize();++i)
+	{
+		ss << layers[layer_num-1][i] << " ";
+	}
+	return ss.str();
+}
+
+int NeuralNet::GetFitness()const
+{
+	return fitness;
+}
+
+void NeuralNet::CalculateFitness(double &target)
+{
+	CalculateOutput();
+	double score = 1.0;
+	for(int i=0;i<layers[layer_num-1].GetSize();++i)
+	{
+		score *= layers[layer_num-1][i];
+	}
+	fitness = target > score ? 100 - (target - score) : 100 - (score - target);
+	if(fitness < 0)fitness = 0;
+}
+
+NeuralNet* NeuralNet::Mutate(float mutation)
+{
+	NeuralNet *nn = new NeuralNet(layer_num,layers[1].GetSize(),
+		layers[0].GetSize(),layers[layer_num-1].GetSize());
+	return nn;
 }

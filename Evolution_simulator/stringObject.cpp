@@ -58,7 +58,7 @@ StringObject* StringObject::Mutate(float mutation)
 	return strobj;
 }
 
-std::string& StringObject::Draw()
+std::string StringObject::Draw()
 {
 	return dns;
 }

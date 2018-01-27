@@ -7,7 +7,7 @@
 #include <cmath>
 #include "simulatorObject.h"
 
-enum Exceptions{INCORRECT_SIZE};
+enum Exception{INCORRECT_SIZE};
 
 template<typename Object>
 struct SimCompare
@@ -44,7 +44,7 @@ void Init(int population_size,float mutationrate,TargetType objectTarget)
 	target = objectTarget;
 	for( int i = 0; i < size; ++i)
 	{
-		Object *object = new Object();
+		Object *object = new Object(3,5,3,2);
 		object->Random();
 		population.push_back(object);
 	}
